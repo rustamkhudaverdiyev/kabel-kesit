@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="az">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Kabel Kəsit Hesablama</title>
+  <style>
+    body{font-family:Arial,system-ui;margin:0;background:#f3f3f3}
+    .wrap{max-width:980px;margin:28px auto;background:#fff;border:1px solid #ddd}
+    header{padding:18px;border-bottom:1px solid #ddd;text-align:center}
+    h1{margin:0;font-size:22px}
+    .sub{color:#666;font-size:12px;margin-top:6px}
+    .grid{display:grid;grid-template-columns:300px 1fr;gap:0;border-top:1px solid #ddd}
+    .row{display:contents}
+    .cell{padding:12px;border-bottom:1px solid #ddd;border-right:1px solid #ddd}
+    .cell:last-child{border-right:none}
+    label{display:block;font-weight:700}
+    input,select,button{width:100%;padding:10px;font-size:14px}
+    button{cursor:pointer}
+    .actions{display:flex;gap:10px;flex-wrap:wrap}
+    .actions button{width:auto;min-width:160px}
+    .out{padding:14px;background:#fffbe6;border-top:1px solid #ddd}
+    .muted{color:#666;font-size:12px;margin-top:8px;line-height:1.35}
+    table{width:100%;border-collapse:collapse;margin-top:10px;background:#fff}
+    th,td{border:1px solid #ddd;padding:10px;text-align:left;font-size:14px}
+    th{background:#fafafa}
+    @media (max-width: 780px){
+      .grid{grid-template-columns:1fr}
+      .cell{border-right:none}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Kabel Kəsit Hesablama</h1>
+      <div class="sub">Sadə gərginlik düşümü hesabı (paylaşıla bilən link + nəticə cədvəli).</div>
+    </header>
+
+    <div class="grid">
+      <div class="row">
+        <div class="cell"><label>Faz sayı</label></div>
+        <div class="cell">
+          <select id="phase">
+            <option value="1">1</option>
+            <option value="3" selected>3</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="cell"><label>Kabel növü</label></div>
+        <div class="cell">
+          <select id="mat">
+            <option value="cu" selected>Mis (Cu)</option>
+            <option value="al">Alüminium (Al)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="cell"><label>Güc</label></div>
+        <div class="cell"><input id="p" type="number" placeholder="Watt" value="5000"></div>
+      </div>
+
+      <div class="row">
+        <div class="cell"><label>Məsafə</label></div>
+        <div class="cell"><input id="l" type="number" placeholder="metr" value="100"></div>
+      </div>
+
+      <div class="row">
+        <div class="cell"><label>Gərginlik</label></div>
+        <div class="cell"><input id="v" type="number" placeholder="Volt" value="230"></div>
+      </div>
+
+      <div class="row">
+        <div class="cell"><label>İcazə verilən gərginlik düşümü</label></div>
+        <div class="cell"><input id="vd" type="number" placeholder="%" value="3"></div>
+      </div>
+
+      <div class="row">
+        <div class="cell"><label>Hesab rejimi</label></div>
+        <div class="cell">
+          <select id="mode">
+            <option value="simple" selected>Sadə (R-only)</option>
+          </select>
+          <div class="muted">V1: sadə model. V2-də cosφ + R/X əlavə edəcəyik.</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="cell"></div>
+        <div class="cell">
+          <div class="actions">
+            <button id="btn">Hesabla</button>
+            <button id="copyBtn" type="button">Nəticəni kopyala</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="out" id="out">Nəticə burada görünəcək.</div>
+
+    <div class="out" style="background:#fff">
+      <b>Nəticə cədvəli</b>
+      <table>
+        <thead>
+          <tr>
+            <th>Faz</th>
+            <th>Kabel</th>
+            <th>Güc (W)</th>
+            <th>Məsafə (m)</th>
+            <th>Gərginlik (V)</th>
+            <th>Düşüm (%)</th>
+            <th>Hesablanan kəsit (mm²)</th>
+            <th>Standart kəsit (mm²)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr id="row">
+            <td colspan="8" class="muted">Hələ hesab aparılmayıb.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="muted">
+        Qeyd: Bu alət ilkin seçim üçündür. Döşəmə şəraiti, temperatur, qrup halında döşəmə, qoruma aparatı, qısaqapanma yoxlaması və normativ tələblər ayrıca yoxlanmalıdır.
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
