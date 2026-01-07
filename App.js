@@ -8,10 +8,9 @@ function pickNextSize(req) {
   return SIZES[SIZES.length - 1];
 }
 
-// Panosis-ə yaxın nəticə üçün Cu rho ~0.01786 götürürük (sadə modeldə).
 function rhoOf(mat) {
   if (mat === "cu") return 0.01786;
-  return 0.0282; // Al üçün yaxın qiymət
+  return 0.0282;
 }
 
 function fmt(n, d = 2) {
@@ -97,14 +96,12 @@ function calc(inp) {
 
   const dV = V * (vdPct / 100);
 
-  // 1 faz: k=2 (gediş-gəliş), 3 faz: k=sqrt(3)
   const k = (phase === 3) ? Math.sqrt(3) : 2;
 
   const rho = rhoOf(mat);
   const S_req = (k * I * rho * L) / dV;
   const S_std = pickNextSize(S_req);
 
-  // geri yoxlama: seçilən standart kəsitdə düşüm %
   const dV_std = (k * I * rho * L) / S_std;
   const vd_std_pct = (dV_std / V) * 100;
 
@@ -128,16 +125,7 @@ function render(inp, res) {
     <b>Akım (təxmini):</b> ${fmt(res.I, 2)} A<br>
     <b>Hesablanan kəsit:</b> ${fmt(res.S_req, 6)} mm²<br>
 
-    <div style="
-      margin:12px 0;
-      padding:12px 14px;
-      border-radius:12px;
-      background:#ffffff;
-      border:2px solid #2563eb;
-      font-size:22px;
-      font-weight:700;
-      color:#2563eb;
-    ">
+    <div class="heroSize">
       Standart seçilən kəsit: ${res.S_std} mm²
     </div>
 
@@ -157,7 +145,6 @@ function render(inp, res) {
     <td><b>${res.S_std}</b></td>
   `;
 
-  // kopyalama üçün mətn saxla
   window.__lastResultText = `Faz: ${inp.phase}
 Kabel: ${kabelTxt}
 Güc: ${inp.P} W
@@ -191,7 +178,6 @@ document.getElementById("copyBtn").addEventListener("click", async () => {
   }
 });
 
-// Advanced toggle: cosφ row göstər/gizlət
 const advToggle = document.getElementById("advToggle");
 const cosRow = document.getElementById("cosRow");
 
@@ -202,6 +188,5 @@ if (advToggle && cosRow) {
   });
 }
 
-// səhifə açılan kimi URL-dən doldur, sonra hesabla
 setInputsFromParams();
 run();
