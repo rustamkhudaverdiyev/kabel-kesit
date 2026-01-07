@@ -90,6 +90,12 @@ body{
   width:24px;
   height:24px;
 }
+.logo{
+  width:64px;
+  height:auto;
+  max-width:64px;
+  display:block;
+}
 
 .titleRow{
   display:flex;
