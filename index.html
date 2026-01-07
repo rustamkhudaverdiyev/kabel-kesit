@@ -1,108 +1,105 @@
 <!doctype html>
 <html lang="az">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Kabel Kəsit Hesablama</title>
+
   <link rel="stylesheet" href="./style.css">
-  <style>
-    body{font-family:Arial,system-ui;margin:0;background:#f3f3f3}
-    .wrap{max-width:980px;margin:28px auto;background:#fff;border:1px solid #ddd}
-    header{padding:18px;border-bottom:1px solid #ddd;text-align:center}
-    h1{margin:0;font-size:22px}
-    .sub{color:#666;font-size:12px;margin-top:6px}
-    .grid{display:grid;grid-template-columns:300px 1fr;gap:0;border-top:1px solid #ddd}
-    .row{display:contents}
-    .cell{padding:12px;border-bottom:1px solid #ddd;border-right:1px solid #ddd}
-    .cell:last-child{border-right:none}
-    label{display:block;font-weight:700}
-    input,select,button{width:100%;padding:10px;font-size:14px}
-    button{cursor:pointer}
-    .actions{display:flex;gap:10px;flex-wrap:wrap}
-    .actions button{width:auto;min-width:160px}
-    .out{padding:14px;background:#fffbe6;border-top:1px solid #ddd}
-    .muted{color:#666;font-size:12px;margin-top:8px;line-height:1.35}
-    table{width:100%;border-collapse:collapse;margin-top:10px;background:#fff}
-    th,td{border:1px solid #ddd;padding:10px;text-align:left;font-size:14px}
-    th{background:#fafafa}
-    @media (max-width: 780px){
-      .grid{grid-template-columns:1fr}
-      .cell{border-right:none}
-    }
-  </style>
 </head>
+
 <body>
   <div class="container">
     <div class="card">
-  
+
       <div class="header">
         <h1>Kabel Kəsit Hesablama</h1>
         <p class="sub">Sadə gərginlik düşümü hesabı (paylaşıla bilən link + nəticə cədvəli).</p>
       </div>
-  
+
       <div class="form">
-  
+
         <div class="row">
           <div class="label">Faz sayı</div>
           <div>
             <select id="phase">
               <option value="1">1</option>
-              <option value="3" selected>3</option>
+              <option value="3">3</option>
             </select>
           </div>
         </div>
-  
+
         <div class="row">
           <div class="label">Kabel növü</div>
           <div>
             <select id="mat">
-              <option value="cu" selected>Mis (Cu)</option>
+              <option value="cu">Mis (Cu)</option>
               <option value="al">Alüminium (Al)</option>
             </select>
           </div>
         </div>
-  
+
         <div class="row">
           <div class="label">Güc (W)</div>
           <div>
             <input id="p" type="number" value="13000" />
           </div>
         </div>
-  
+
         <div class="row">
           <div class="label">Məsafə (m)</div>
           <div>
             <input id="l" type="number" value="180" />
           </div>
         </div>
-  
+
         <div class="row">
           <div class="label">Gərginlik (V)</div>
           <div>
             <input id="v" type="number" value="400" />
           </div>
         </div>
-  
+
         <div class="row">
           <div class="label">İcazə verilən gərginlik düşümü (%)</div>
           <div>
             <input id="vd" type="number" value="3" />
-            <div class="help">V1: sadə model (cosφ=1, yalnız R). Real seçimdə əlavə yoxlamalar şərtdir.</div>
+            <div class="help">V1: sadə model (yalnız R). Real seçimdə əlavə yoxlamalar şərtdir.</div>
           </div>
         </div>
-  
+
+        <!-- Advanced toggle -->
+        <div class="row">
+          <div class="label">Advanced</div>
+          <div>
+            <label class="toggleLine">
+              <input type="checkbox" id="advToggle">
+              cosφ daxil et
+            </label>
+          </div>
+        </div>
+
+        <!-- cosφ row (hidden by default) -->
+        <div class="row" id="cosRow" style="display:none">
+          <div class="label">cosφ</div>
+          <div>
+            <input id="cos" type="number" step="0.01" min="0.1" max="1" value="0.8" />
+            <div class="help">Mühərriklər üçün adətən 0.75–0.85</div>
+          </div>
+        </div>
+
       </div>
-  
+
       <div class="actions">
         <button id="btn" class="btn primary">Hesabla</button>
         <button id="copyBtn" class="btn outline">Nəticəni kopyala</button>
       </div>
-  
+
       <div class="result">
         <div class="big">Nəticə</div>
         <div id="out" class="outText">—</div>
       </div>
-  
+
       <div class="tableWrap">
         <div class="tableTitle">Nəticə cədvəli</div>
         <div class="tableBox">
@@ -125,20 +122,17 @@
               </tr>
             </tbody>
           </table>
-  
+
           <div class="note">
             Qeyd: Bu alət ilkin seçim üçündür. Döşəmə şəraiti, temperatur, qrup halında döşəmə, qoruma aparatı,
             qısqapanma yoxlaması və normativ tələblər ayrıca yoxlanmalıdır.
           </div>
         </div>
       </div>
-  
+
     </div>
   </div>
-  
+
   <script type="module" src="./App.js"></script>
 </body>
 </html>
-
-
-
