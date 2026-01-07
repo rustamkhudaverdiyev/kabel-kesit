@@ -221,3 +221,24 @@ input:focus, select:focus{
     padding: 6px 0;
   }
 }
+/* Desktop: formu REAL 2 sütun elə */
+@media (min-width: 900px){
+  .form{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 32px;
+    row-gap: 14px;
+  }
+
+  .row{
+    display:flex;
+    flex-direction:column;
+    padding: 0;
+    border-bottom:none;
+  }
+
+  /* hər row tam eni tutmasın */
+  .row > div{
+    width:100%;
+  }
+}
