@@ -7,7 +7,7 @@
 
   <link rel="stylesheet" href="./style.css">
 
-  <!-- Inline SVG favicon (tab üçün “logo”) -->
+  <!-- Inline SVG favicon (tab üçün mini logo) -->
   <link rel="icon" type="image/svg+xml"
     href='data:image/svg+xml;utf8,
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
@@ -32,18 +32,19 @@
       <div class="header headerFancy">
         <div class="brand">
           <div class="logoMark" aria-hidden="true">
-            <!-- simple cable icon -->
+            <!-- cable-ish icon -->
             <svg viewBox="0 0 24 24" fill="none">
               <path d="M7 12c0-3 2-5 5-5h7v3h-7c-1 0-2 1-2 2s1 2 2 2h3v3h-3c-3 0-5-2-5-5z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
               <path d="M19 6v12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
             </svg>
           </div>
+
           <div>
             <div class="titleRow">
               <h1>Kabel Kəsit Hesablama</h1>
               <span class="badge">V1</span>
             </div>
-            <p class="sub">Gərginlik düşümünə görə kəsit seçimi</p>
+            <p class="sub">Gərginlik düşümünə görə kəsit seçimi · Paylaşıla bilən link · Nəticə cədvəli</p>
           </div>
         </div>
       </div>
@@ -73,21 +74,21 @@
         <div class="row">
           <div class="label">Güc (W)</div>
           <div>
-            <input id="p" type="number" value="13000" />
+            <input id="p" type="number" value="700" />
           </div>
         </div>
 
         <div class="row">
           <div class="label">Məsafə (m)</div>
           <div>
-            <input id="l" type="number" value="180" />
+            <input id="l" type="number" value="321" />
           </div>
         </div>
 
         <div class="row">
           <div class="label">Gərginlik (V)</div>
           <div>
-            <input id="v" type="number" value="400" />
+            <input id="v" type="number" value="230" />
           </div>
         </div>
 
@@ -99,6 +100,7 @@
           </div>
         </div>
 
+        <!-- Advanced Toggle (Switch) -->
         <div class="row">
           <div class="label">Advanced</div>
           <div>
@@ -110,6 +112,7 @@
           </div>
         </div>
 
+        <!-- cosφ row (hidden by default) -->
         <div class="row" id="cosRow" style="display:none">
           <div class="label">cosφ</div>
           <div>
@@ -154,8 +157,8 @@
           </table>
 
           <div class="note">
-              Qeyd: Bu alət ilkin seçim üçündür. Döşəmə şəraiti, temperatur, qrup halında döşəmə, qoruma aparatı,
-              qısqapanma yoxlaması və normativ tələblər ayrıca yoxlanmalıdır.
+            Qeyd: Bu alət ilkin seçim üçündür. Döşəmə şəraiti, temperatur, qrup halında döşəmə, qoruma aparatı,
+            qısqapanma yoxlaması və normativ tələblər ayrıca yoxlanmalıdır.
           </div>
         </div>
       </div>
@@ -169,7 +172,7 @@
     </div>
   </div>
 
+  <!-- Sənində App.js qalır -->
   <script type="module" src="./App.js"></script>
 </body>
 </html>
-
