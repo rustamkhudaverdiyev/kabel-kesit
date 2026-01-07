@@ -209,3 +209,15 @@ input:focus, select:focus{
 .resTable tbody tr:last-child td{
   border-bottom:none;
 }
+/* Desktop: formu 2 sütun elə */
+@media (min-width: 900px){
+  .form{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .row{
+    border-bottom:none;
+    padding: 6px 0;
+  }
+}
