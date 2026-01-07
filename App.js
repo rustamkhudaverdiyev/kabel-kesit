@@ -97,7 +97,18 @@ function render(inp, res) {
   out.innerHTML = `
     <b>Akım (təxmini):</b> ${fmt(res.I, 2)} A<br>
     <b>Hesablanan kəsit:</b> ${fmt(res.S_req, 6)} mm²<br>
-    <b>Standart seçilən kəsit:</b> <span style="font-size:18px"><b>${res.S_std} mm²</b></span><br>
+    <div style="
+      margin:12px 0;
+      padding:12px 14px;
+      border-radius:12px;
+      background:#ffffff;
+      border:2px solid #2563eb;
+      font-size:22px;
+      font-weight:700;
+      color:#2563eb;
+    ">
+      Standart seçilən kəsit: ${res.S_std} mm²
+    </div>
     <b>Bu standart kəsitlə düşüm:</b> ${fmt(res.vd_std_pct, 2)} %
     <div class="muted">Sadə modeldir (cosφ=1, yalnız R). Real seçimdə əlavə yoxlamalar şərtdir.</div>
   `;
@@ -149,3 +160,4 @@ document.getElementById("copyBtn").addEventListener("click", async () => {
 // səhifə açılan kimi URL-dən doldur, sonra hesabla
 setInputsFromParams();
 run();
+
