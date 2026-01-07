@@ -32,106 +32,113 @@
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <header>
-      <h1>Kabel Kəsit Hesablama</h1>
-      <div class="sub">Sadə gərginlik düşümü hesabı (paylaşıla bilən link + nəticə cədvəli).</div>
-    </header>
-
-    <div class="grid">
-      <div class="row">
-        <div class="cell"><label>Faz sayı</label></div>
-        <div class="cell">
-          <select id="phase">
-            <option value="1">1</option>
-            <option value="3" selected>3</option>
-          </select>
+  <div class="container">
+    <div class="card">
+  
+      <div class="header">
+        <h1>Kabel Kəsit Hesablama</h1>
+        <p class="sub">Sadə gərginlik düşümü hesabı (paylaşıla bilən link + nəticə cədvəli).</p>
+      </div>
+  
+      <div class="form">
+  
+        <div class="row">
+          <div class="label">Faz sayı</div>
+          <div>
+            <select id="phase">
+              <option value="1">1</option>
+              <option value="3" selected>3</option>
+            </select>
+          </div>
         </div>
-      </div>
-
-      <div class="row">
-        <div class="cell"><label>Kabel növü</label></div>
-        <div class="cell">
-          <select id="mat">
-            <option value="cu" selected>Mis (Cu)</option>
-            <option value="al">Alüminium (Al)</option>
-          </select>
+  
+        <div class="row">
+          <div class="label">Kabel növü</div>
+          <div>
+            <select id="mat">
+              <option value="cu" selected>Mis (Cu)</option>
+              <option value="al">Alüminium (Al)</option>
+            </select>
+          </div>
         </div>
-      </div>
-
-      <div class="row">
-        <div class="cell"><label>Güc</label></div>
-        <div class="cell"><input id="p" type="number" placeholder="Watt" value="5000"></div>
-      </div>
-
-      <div class="row">
-        <div class="cell"><label>Məsafə</label></div>
-        <div class="cell"><input id="l" type="number" placeholder="metr" value="100"></div>
-      </div>
-
-      <div class="row">
-        <div class="cell"><label>Gərginlik</label></div>
-        <div class="cell"><input id="v" type="number" placeholder="Volt" value="230"></div>
-      </div>
-
-      <div class="row">
-        <div class="cell"><label>İcazə verilən gərginlik düşümü</label></div>
-        <div class="cell"><input id="vd" type="number" placeholder="%" value="3"></div>
-      </div>
-
-      <div class="row">
-        <div class="cell"><label>Hesab rejimi</label></div>
-        <div class="cell">
-          <select id="mode">
-            <option value="simple" selected>Sadə (R-only)</option>
-          </select>
-          <div class="muted">V1: sadə model. V2-də cosφ + R/X əlavə edəcəyik.</div>
+  
+        <div class="row">
+          <div class="label">Güc (W)</div>
+          <div>
+            <input id="p" type="number" value="13000" />
+          </div>
         </div>
+  
+        <div class="row">
+          <div class="label">Məsafə (m)</div>
+          <div>
+            <input id="l" type="number" value="180" />
+          </div>
+        </div>
+  
+        <div class="row">
+          <div class="label">Gərginlik (V)</div>
+          <div>
+            <input id="v" type="number" value="400" />
+          </div>
+        </div>
+  
+        <div class="row">
+          <div class="label">İcazə verilən gərginlik düşümü (%)</div>
+          <div>
+            <input id="vd" type="number" value="3" />
+            <div class="help">V1: sadə model (cosφ=1, yalnız R). Real seçimdə əlavə yoxlamalar şərtdir.</div>
+          </div>
+        </div>
+  
       </div>
-
-      <div class="row">
-        <div class="cell"></div>
-        <div class="cell">
-          <div class="actions">
-            <button id="btn">Hesabla</button>
-            <button id="copyBtn" type="button">Nəticəni kopyala</button>
+  
+      <div class="actions">
+        <button id="btn" class="btn primary">Hesabla</button>
+        <button id="copyBtn" class="btn outline">Nəticəni kopyala</button>
+      </div>
+  
+      <div class="result">
+        <div class="big">Nəticə</div>
+        <div id="out" class="outText">—</div>
+      </div>
+  
+      <div class="tableWrap">
+        <div class="tableTitle">Nəticə cədvəli</div>
+        <div class="tableBox">
+          <table class="resTable">
+            <thead>
+              <tr>
+                <th>Faz</th>
+                <th>Kabel</th>
+                <th>Güc (W)</th>
+                <th>Məsafə (m)</th>
+                <th>Gərginlik (V)</th>
+                <th>Düşüm limiti (%)</th>
+                <th>Hesablanan kəsit (mm²)</th>
+                <th>Standart kəsit (mm²)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr id="row">
+                <td colspan="8" class="muted">—</td>
+              </tr>
+            </tbody>
+          </table>
+  
+          <div class="note">
+            Qeyd: Bu alət ilkin seçim üçündür. Döşəmə şəraiti, temperatur, qrup halında döşəmə, qoruma aparatı,
+            qısqapanma yoxlaması və normativ tələblər ayrıca yoxlanmalıdır.
           </div>
         </div>
       </div>
-    </div>
-
-    <div class="out" id="out">Nəticə burada görünəcək.</div>
-
-    <div class="out" style="background:#fff">
-      <b>Nəticə cədvəli</b>
-      <table>
-        <thead>
-          <tr>
-            <th>Faz</th>
-            <th>Kabel</th>
-            <th>Güc (W)</th>
-            <th>Məsafə (m)</th>
-            <th>Gərginlik (V)</th>
-            <th>Düşüm (%)</th>
-            <th>Hesablanan kəsit (mm²)</th>
-            <th>Standart kəsit (mm²)</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr id="row">
-            <td colspan="8" class="muted">Hələ hesab aparılmayıb.</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div class="muted">
-        Qeyd: Bu alət ilkin seçim üçündür. Döşəmə şəraiti, temperatur, qrup halında döşəmə, qoruma aparatı, qısaqapanma yoxlaması və normativ tələblər ayrıca yoxlanmalıdır.
-      </div>
+  
     </div>
   </div>
-
-  <script src="App.js"></script>
+  
+  <script type="module" src="./App.js"></script>
 </body>
 </html>
+
 
 
