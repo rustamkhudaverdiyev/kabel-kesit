@@ -97,4 +97,111 @@ function calc(inp) {
 
   const dV = V * (vdPct / 100);
 
-  // 1 faz: k=2 (gediş-gəliş), 3 faz: k=sqrt(
+  // 1 faz: k=2 (gediş-gəliş), 3 faz: k=sqrt(3)
+  const k = (phase === 3) ? Math.sqrt(3) : 2;
+
+  const rho = rhoOf(mat);
+  const S_req = (k * I * rho * L) / dV;
+  const S_std = pickNextSize(S_req);
+
+  // geri yoxlama: seçilən standart kəsitdə düşüm %
+  const dV_std = (k * I * rho * L) / S_std;
+  const vd_std_pct = (dV_std / V) * 100;
+
+  return { ok: true, I, S_req, S_std, vd_std_pct, cos };
+}
+
+function render(inp, res) {
+  const out = document.getElementById("out");
+  const row = document.getElementById("row");
+
+  if (!res.ok) {
+    out.textContent = res.err;
+    row.innerHTML = `<td colspan="8" style="color:#b00020">${res.err}</td>`;
+    return;
+  }
+
+  const kabelTxt = (inp.mat === "cu") ? "Mis (Cu)" : "Alüminium (Al)";
+  const cosShown = inp.adv ? (inp.cos || 1) : 1;
+
+  out.innerHTML = `
+    <b>Akım (təxmini):</b> ${fmt(res.I, 2)} A<br>
+    <b>Hesablanan kəsit:</b> ${fmt(res.S_req, 6)} mm²<br>
+
+    <div style="
+      margin:12px 0;
+      padding:12px 14px;
+      border-radius:12px;
+      background:#ffffff;
+      border:2px solid #2563eb;
+      font-size:22px;
+      font-weight:700;
+      color:#2563eb;
+    ">
+      Standart seçilən kəsit: ${res.S_std} mm²
+    </div>
+
+    <b>Bu standart kəsitlə düşüm:</b> ${fmt(res.vd_std_pct, 2)} %<br>
+    <b>cosφ:</b> ${cosShown}
+    <div class="muted">Model: yalnız R. Real seçimdə əlavə yoxlamalar şərtdir.</div>
+  `;
+
+  row.innerHTML = `
+    <td>${inp.phase}</td>
+    <td>${kabelTxt}</td>
+    <td>${inp.P}</td>
+    <td>${inp.L}</td>
+    <td>${inp.V}</td>
+    <td>${inp.vdPct}</td>
+    <td>${fmt(res.S_req, 10)}</td>
+    <td><b>${res.S_std}</b></td>
+  `;
+
+  // kopyalama üçün mətn saxla
+  window.__lastResultText = `Faz: ${inp.phase}
+Kabel: ${kabelTxt}
+Güc: ${inp.P} W
+Məsafə: ${inp.L} m
+Gərginlik: ${inp.V} V
+Düşüm limiti: ${inp.vdPct} %
+cosφ: ${cosShown}
+Akım: ${fmt(res.I, 2)} A
+Hesablanan kəsit: ${fmt(res.S_req, 6)} mm²
+Standart kəsit: ${res.S_std} mm²
+Standart kəsitlə düşüm: ${fmt(res.vd_std_pct, 2)} %`;
+}
+
+function run() {
+  const inp = getInputs();
+  updateUrlFromInputs(inp);
+  const res = calc(inp);
+  render(inp, res);
+}
+
+document.getElementById("btn").addEventListener("click", run);
+
+document.getElementById("copyBtn").addEventListener("click", async () => {
+  const txt = window.__lastResultText;
+  if (!txt) return alert("Əvvəlcə hesabla.");
+  try {
+    await navigator.clipboard.writeText(txt);
+    alert("Kopyalandı.");
+  } catch {
+    alert("Brauzer icazə vermədi. Nəticəni əl ilə seçib kopyala.");
+  }
+});
+
+// Advanced toggle: cosφ row göstər/gizlət
+const advToggle = document.getElementById("advToggle");
+const cosRow = document.getElementById("cosRow");
+
+if (advToggle && cosRow) {
+  advToggle.addEventListener("change", () => {
+    cosRow.style.display = advToggle.checked ? "block" : "none";
+    run();
+  });
+}
+
+// səhifə açılan kimi URL-dən doldur, sonra hesabla
+setInputsFromParams();
+run();
